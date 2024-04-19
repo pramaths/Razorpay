@@ -2,6 +2,8 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Subscription
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 def webhook_receiver(request):
     if request.method == 'POST':
@@ -26,3 +28,8 @@ def webhook_receiver(request):
             return JsonResponse({'status': 'error', 'message': 'Subscription not found'}, status=404)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+class PingView(APIView):
+    def get(self,*args,**kwargs):
+        print("hello")
+        return Response(data={"ping":"message"})
